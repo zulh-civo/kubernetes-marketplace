@@ -44,7 +44,7 @@ spec:
               protocol: TCP
           env:
             - name: url
-              value: http://ghost.$CLUSTER_ID.k8s.civo.com
+              value: http://ghost.$DOMAIN_NAME
           livenessProbe:
             httpGet:
               port: ghost-blog
@@ -88,9 +88,9 @@ metadata:
   namespace: ghost
 spec:
   rules:
-  - host: ghost.$CLUSTER_ID.k8s.civo.com
-    http:
-      paths:
-      - backend:
-          serviceName: ghost-blog
-          servicePort: 80
+    - host: ghost.$DOMAIN_NAME
+      http:
+        paths:
+          - backend:
+              serviceName: ghost-blog
+              servicePort: 80
