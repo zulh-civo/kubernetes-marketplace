@@ -42,9 +42,4 @@ Incoming triggers can be exposed through an Ingress. [The core instructions](htt
                   servicePort: 8080
    ```
 
-<<<<<<< HEAD
 This will open up http://eventlistenername.DOMAIN_NAME to trigger the service. Ensure your eventlistener has the necessary interceptor configuration in place to prevent unauthorized triggering of the pipeline.
-=======
-This will open up http://eventlistenername.YOUR_CLUSTER_ID.k8s.civo.com to trigger the service. Ensure your event-listener has the necessary interceptor configuration in place to prevent unauthorized triggering of the pipeline.
-
-> > > > > > > upstream/master
