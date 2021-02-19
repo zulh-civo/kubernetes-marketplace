@@ -5,7 +5,7 @@ metadata:
 spec:
   storageClassName: longhorn
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: $VOLUME_SIZE
@@ -25,7 +25,7 @@ spec:
         app: wordpress
     spec:
       containers:
-        - image: wordpress:5.5.3
+        - image: wordpress:5.5.1
           name: wordpress
           ports:
             - name: web
