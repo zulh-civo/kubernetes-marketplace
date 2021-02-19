@@ -10,8 +10,8 @@ spec:
     driver: io.rancher.longhorn
     fsType: ext4
     volumeAttributes:
-      numberOfReplicates: '2'
-      staleReplicaTimeout: '20'
+      numberOfReplicates: "2"
+      staleReplicaTimeout: "20"
     volumeHandle: mysql-data
   capacity:
     storage: $VOLUME_SIZE
@@ -38,7 +38,7 @@ metadata:
   name: mariadb
 spec:
   ports:
-  - port: 3306
+    - port: 3306
   selector:
     app: mariadb
   clusterIP: None
@@ -59,21 +59,21 @@ spec:
         app: mariadb
     spec:
       containers:
-      - image: mariadb:10.4.7
-        name: mariadb
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-pass
-              key: MYSQL_ROOT_PASSWORD
-        ports:
-        - containerPort: 3306
+        - image: mariadb:10.4.6
           name: mariadb
-        volumeMounts:
-        - name: mariadb-persistent-storage
-          mountPath: /var/lib/mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: MYSQL_ROOT_PASSWORD
+          ports:
+            - containerPort: 3306
+              name: mariadb
+          volumeMounts:
+            - name: mariadb-persistent-storage
+              mountPath: /var/lib/mysql
       volumes:
-      - name: mariadb-persistent-storage
-        persistentVolumeClaim:
-          claimName: mariadb-pv-claim
+        - name: mariadb-persistent-storage
+          persistentVolumeClaim:
+            claimName: mariadb-pv-claim
