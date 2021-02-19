@@ -51,6 +51,10 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5
+          env:
+            - name: WORDPRESS_CONFIG_EXTRA
+              value: |
+                define('AUTOMATIC_UPDATER_DISABLED', true);
       initContainers:
         - name: prepare-ssl-config
           image: busybox
