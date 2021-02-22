@@ -74,7 +74,8 @@ spec:
           image: joomla:3.9.22
           command: ["sh", "-c"]
           args:
-            - echo "--- start ---";
+            - if test -f "configuration.php"; then
+              echo "--- start ---";
               echo "Date & time - $(date)";
               echo "Current directory - $(pwd)";
               echo "User - $(whoami)";
@@ -86,6 +87,7 @@ spec:
               chown -R www-data:www-data .;
               head administrator/manifests/files/joomla.xml;
               echo "--- end ---";
+              fi;
           volumeMounts:
             - name: joomla-persistent-storage
               mountPath: /var/www/html
