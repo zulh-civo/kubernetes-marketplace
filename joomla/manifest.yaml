@@ -25,7 +25,7 @@ plans:
 configuration:
   DOMAIN_NAME:
     label: "Cluster ID"
-    value: "BIZAAR:DOMAIN_NAME"
+    value: "KUBEMART:DOMAIN_NAME"
   EMAIL_ADDRESS:
     label: "Email Address"
-    value: "BIZAAR:EMAIL_ADDRESS"
+    value: "KUBEMART:EMAIL_ADDRESS"
