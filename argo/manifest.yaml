@@ -1,5 +1,6 @@
 ---
 name: argo
+namespace: argocd
 title: "Argo CI/CD"
 version: (default)
 maintainer: "The Argo Project"
