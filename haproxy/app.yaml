@@ -26,8 +26,6 @@ rules:
   - namespaces
   - events
   - serviceaccounts
-  - ingressclasses
-  - ingresses
   verbs:
   - get
   - list
@@ -55,6 +53,15 @@ rules:
 - apiGroups:
   - extensions
   resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingressclasses
   - ingresses
   verbs:
   - get
