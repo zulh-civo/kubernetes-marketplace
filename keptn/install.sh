@@ -1,11 +1,21 @@
 #!/bin/bash
 
-kubectl config get-contexts
+# ============================================================================================
+# Create a kubeconfig file from daemon's service account
+# https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaddingserviceaccttoken.htm
+# ============================================================================================
+TOKENNAME=`kubectl -n kubemart-system get serviceaccount/kubemart-daemon-svc-acc -o jsonpath='{.secrets[0].name}'`
+echo "TOKENNAME:" $TOKENNAME
 
-kubectl cluster-info
+TOKEN=`kubectl -n kubemart-system get secret $TOKENNAME -o jsonpath='{.data.token}'| base64 --decode`
+echo "TOKEN:" $TOKEN
 
+kubectl config set-credentials kubemart-daemon-svc-acc --token=$TOKEN
+kubectl config set-context --current --user=kubemart-daemon-svc-acc
+
+# ============================================================================================
+# Install Keptn
+# ============================================================================================
 curl -sL https://get.keptn.sh | bash
-
 echo "{}" > creds.json
-
 keptn install --endpoint-service-type=NodePort --creds ./creds.json
