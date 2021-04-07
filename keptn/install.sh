@@ -11,7 +11,8 @@ TOKEN=`kubectl -n kubemart-system get secret $TOKENNAME -o jsonpath='{.data.toke
 echo "TOKEN:" $TOKEN
 
 kubectl config set-credentials kubemart-daemon-svc-acc --token=$TOKEN
-kubectl config set-context --current --user=kubemart-daemon-svc-acc
+kubectl config set-context ephemeral --user=kubemart-daemon-svc-acc
+kubectl config use-context ephemeral
 
 # ============================================================================================
 # Install Keptn
