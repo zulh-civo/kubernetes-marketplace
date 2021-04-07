@@ -8,7 +8,7 @@
   curl -sL https://get.keptn.sh | sudo -E bash
   ```
 
-1. Before you connect your CLI to your Keptn installation in Civo, make sure that Keptn is ready.
+2. Before you connect your CLI to your Keptn installation in Civo, make sure that Keptn is ready.
 
   ```
   kubectl get deploy -n keptn
@@ -17,7 +17,7 @@
   If all deployments are ready and available, please proceed to the next step.
 
 
-1. Connect the CLI to the Keptn installation
+3. Connect the CLI to the Keptn installation
   ```
   API_PORT=$(kubectl get svc api-gateway-nginx -n keptn -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
   EXTERNAL_NODE_IP=$(kubectl get nodes -o jsonpath='{ $.items[0].status.addresses[?(@.type=="ExternalIP")].address }')
@@ -27,7 +27,7 @@
   keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
   ```
 
-1. Access the bridge via:
+4. Access the bridge via:
   ```
   echo http://${EXTERNAL_NODE_IP}:${API_PORT}/bridge
   ```
@@ -37,7 +37,7 @@
   keptn configure bridge -o
   ```
 
-1. Follow the [tutorials](https://tutorials.keptn.sh/?cat=quality-gates) to get started! Please note that Keptn is already installed and these parts of the tutorials can be skipped :)
+5. Follow the [tutorials](https://tutorials.keptn.sh/?cat=quality-gates) to get started! Please note that Keptn is already installed and these parts of the tutorials can be skipped :)
 
 
 
