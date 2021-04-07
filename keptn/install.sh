@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -sL https://get.keptn.sh | sudo -E bash
+curl -sL https://get.keptn.sh | bash
 
 echo "{}" > creds.json
 
