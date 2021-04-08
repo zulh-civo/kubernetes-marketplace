@@ -5,13 +5,13 @@
 In order to access the dashboard, you must obtain the bearer token for the admin service account. To do this, run the following command:
 
 ```
-kubectl -n kubernetes-dashboard describe secret admin-user-token | grep ^token
+$ kubectl -n kubernetes-dashboard describe secret admin-user-token | grep ^token
 ```
 
 Once you have that token, you can proxy into the cluster by running:
 
 ```
-kubectl proxy
+$ kubectl proxy
 ```
 
 The dashboard will now be accessible at the following url:
