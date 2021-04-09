@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: litmus
+  name: litmuschaos
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: litmus
-  namespace: litmus
+  namespace: litmuschaos
   labels:
     app.kubernetes.io/name: litmus
     # provide unique instance-id if applicable
@@ -59,7 +59,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: litmus
-  namespace: litmus
+  namespace: litmuschaos
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -74,7 +74,7 @@ metadata:
     app.kubernetes.io/managed-by: kubectl
     name: litmus
   name: chaos-operator-ce
-  namespace: litmus
+  namespace: litmuschaos
 spec:
   replicas: 1
   selector:

@@ -1,5 +1,6 @@
 ---
 name: LitmusChaos
+namespace: litmuschaos
 version: 1.9.1
 maintainer: karthik.s@mayadata.io
 description: LitmusChaos is a cloud-native Chaos Engineering framework 
