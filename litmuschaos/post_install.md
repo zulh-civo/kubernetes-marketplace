@@ -3,7 +3,7 @@
 - Verify that the chaos operator and chaos CRDs are successfully installed
 
   ```
-  $ kubectl get pods -n litmus
+  $ kubectl get pods -n litmuschaos
   NAME                                 READY   STATUS    RESTARTS   AGE
   chaos-operator-ce-56449c7d75-lt8jc   1/1     Running   0          90s
   ```
