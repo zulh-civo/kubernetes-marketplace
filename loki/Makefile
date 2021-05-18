@@ -1,5 +1,5 @@
 VERSION?="0.41.2"
-CHART_URL?="https://grafana.github.io/loki/charts"
+CHART_URL?="https://grafana.github.io/helm-charts"
 # For cli directly installed
 CIVO_CMD?="civo"
 # For Docker
@@ -8,26 +8,22 @@ CIVO_TEST_CLUSTER_NAME?=loki-test
 CIVO_KUBECONFIG?=kubeconfig.$(CIVO_TEST_CLUSTER_NAME)
 KUBECTL?=kubectl --kubeconfig=$(CIVO_KUBECONFIG)
 
-# Depends on yq from https://github.com/mikefarah/yq for parsing
+# Depends on yq from https://github.com/mikefarah/yq v2.x for parsing
+# https://github.com/mikefarah/yq/releases/tag/2.4.1
 .PHONY: latest_version
 latest_version:
-	@curl -s $(CHART_URL)/index.yaml | yq r - 'entries.loki-stack[*].version' | sort -t "." -k1,1n -k2,2n -k3,3n | tail -1
+	@curl -s $(CHART_URL)/index.yaml | mikefarah_yq r - 'entries.loki-stack[*].version' | sort -t "." -k1,1n -k2,2n -k3,3n | tail -1
 
 .PHONY: build
-build: app.yaml
+build: install.sh
 
-app.yaml:
-# Whatever commands are needed to build the app.yaml.  Kustomize example below
-	@sed "s/VERSION/$(VERSION)/" app.yaml.tmpl > app.yaml
-
-	# Test final app.yaml for validity
-	@echo "Testing validity of app.yaml"
-	@$(KUBECTL) apply -f app.yaml --dry-run=client > /dev/null
-	@echo "Clean app.yaml generated"
+install.sh:
+# Whatever commands are needed to build the install.sh.  Kustomize example below
+	@sed "s/VERSION/$(VERSION)/" install.sh.tmpl > install.sh
 
 .PHONY: clean
 clean:
-	@rm app.yaml
+	@rm install.sh
 
 .PHONY: test
 test: $(CIVO_KUBECONFIG) test-noclean cluster-clean
@@ -39,7 +35,8 @@ test-keep: $(CIVO_KUBECONFIG) test-noclean
 # Took nearly two minutes for loki to come up...testing look to compensate 
 test-noclean:
 	@echo "Applying manifest and test run"
-	@$(KUBECTL) apply -f app.yaml
+	@chmod +x install.sh
+	@./install.sh
 	@sleep 30
 	@$(KUBECTL) create -f test-manifests/testjob.yaml  
 	@sleep 10
@@ -67,5 +64,6 @@ $(CIVO_KUBECONFIG):
 	@echo "Creating $(CIVO_TEST_CLUSTER_NAME)"
 	@$(CIVO_CMD) k3s create $(CIVO_TEST_CLUSTER_NAME) -n 3 --size g2.small -a prometheus-operator --wait
 	@$(CIVO_CMD) k3s config $(CIVO_TEST_CLUSTER_NAME) > $(CIVO_KUBECONFIG)
+	@export KUBECONFIG=$(CIVO_KUBECONFIG)
 	@echo "Waiting for all 3 nodes to come up"
 	@for i in $$(seq 1 10); do echo Test $$i; if [ "$$($(KUBECTL) get nodes | grep Ready | wc -l)" = "3" ]; then break; else sleep 10; fi; done
